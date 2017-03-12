@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core.apps.CoreConfig',
+    'blogs.apps.BlogsConfig',
+    'comments.apps.CommentsConfig',
+    'posts.apps.PostsConfig'
 ]
+
+AUTH_USER_MODEL = 'core.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,7 +82,7 @@ WSGI_APPLICATION = 'application.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Test',
+        'NAME': 'boboBase',
         'USER': 'bobo',
         'PASSWORD': 'bobo',
         'HOST': 'localhost',
