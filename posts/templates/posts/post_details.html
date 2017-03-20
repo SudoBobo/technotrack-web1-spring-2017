@@ -12,11 +12,11 @@
     <a href="{% url 'blogs:blog_details' pk=post.blog.id %}">Блог: {{ post.blog.title }}</a>
     <div>Автор : {{ post.author }}</div>
     <div> {{ post.content}}</div>
-        {% for comments in object.comment_set.all %}
+        {% for comment in object.comment_set.all %}
         <div style="border: dotted">
-            <div> Комментарй № {{ comments.id }} </div>
-            <div> {{ comments.text}}</div>
-            <div><small>Автор: {{ post.author }}</small></div>
+            <div> Комментарй № {{ comment.id }} </div>
+            <div> {{ comment.text}}</div>
+            <div><small>Автор: {{ comment.author }}</small></div>
         </div>
     {% endfor %}
 
