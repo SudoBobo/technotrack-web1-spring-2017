@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'registration.backends.simple',
     'core.apps.CoreConfig',
     'blogs.apps.BlogsConfig',
     'comments.apps.CommentsConfig',
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'core.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware', # проходятся последовательно

@@ -16,3 +16,8 @@ class HomePageView(TemplateView):
         context['n_posts'] = Post.objects.all().count();
         context['n_comments'] = Comment.objects.all().count();
         return context
+
+#
+# Upon successful registration, the user will be redirected to the site’s home page – the URL /.
+# This can be changed by subclassing registration.backends.simple.views.RegistrationView
+# and overriding the method get_success_url().
