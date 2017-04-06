@@ -46,12 +46,12 @@ INSTALLED_APPS = [
 AUTH_USER_MODEL = 'core.User'
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.security.SecurityMiddleware', # проходятся последовательно
+    'django.contrib.sessions.middleware.SessionMiddleware', # используют результаты работы друг друга
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware', # позволяет что-то заготовить для пользователя безоотносительно запросов
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -127,3 +127,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+#
+
+LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'core:login'

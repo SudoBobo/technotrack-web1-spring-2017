@@ -16,11 +16,23 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+
+import blogs
 from core.views import HomePageView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    # передаёт URL в blogs.url без "blogs/"?
+
+    # Whenever Django encounters include() (django.conf.urls.include()), it chops off whatever part of
+    # the URL matched up to that point and sends the remaining string to the included URLconf for further processing.
+
+    #Почему не делаем так?
+    # url(r'blogs/', blogs.urls) - нет чопа
+    # как внизу - есть
+
     url(r'^blogs/', include('blogs.urls', namespace = "blogs")),
+    url(r'^core/', include('core.urls', namespace = "core")),
     url(r'^posts/', include('posts.urls', namespace="posts")),
     url(r'^comments/', include('comments.urls', namespace="comments")),
     url(r'^$', HomePageView.as_view(), name="home"),
