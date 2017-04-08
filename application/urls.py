@@ -22,7 +22,7 @@ from django.conf.urls import include, url
 
 from registration.backends.simple.views import RegistrationView
 
-from application.form import MyRegistrationForm
+from application.forms import MyRegistrationForm
 
 
 urlpatterns = [

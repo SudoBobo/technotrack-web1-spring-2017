@@ -20,11 +20,14 @@
 
 
 
+    <div>
+        <a href="{% url 'blogs:create_blog' %}"> Создать блог </a>
+    </div>
     <a href="{% url 'home' %}">Home</a>
 {%  endblock %}
 
 
-{%block footer %} {% endblock %}
+{%block footer %} Вы авторизованы как : {{ user.username }}{% endblock %}
 
 {#{% block content %}#}
 {#    <a href="{% url 'home' %}"><h3>Домашняя страница</h3></a>#}

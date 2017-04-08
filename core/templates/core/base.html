@@ -17,19 +17,11 @@
 
 <div>
     {% block footer %} {{ user.username }}
-    <div>
-    <form method ="get" action="{%  url "blogs:blog_list" %}">
-        <input type = "text" name = "login" value="admon">
-        <input type = "hidden" name = "hitler">
-        <select name="category">
-            <option number="14"></option>
-            <option number="88"></option>
-
-
-        </select>
-
-    </form>
-    </div>
+{#    <div>#}
+{#    <form method ="get" action="{%  url "blogs:blog_list" %}">#}
+{##}
+{#        <input type="submit" value="К списку блогов"/>    </form>#}
+{#    </div>#}
     {% endblock %}
 </div>
 

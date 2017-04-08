@@ -1,9 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, resolve_url
+from django.views.generic import CreateView
 
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
 from blogs.models import Blog
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from blogs.forms import CreateBlogForm
 
 
 class BlogList(ListView):
@@ -23,3 +27,15 @@ class BlogList(ListView):
 class BlogDetails(DetailView):
     template_name = 'blogs/blog_details.html'
     model = Blog
+
+
+class CreateBlog(LoginRequiredMixin, CreateView):
+    form_class = CreateBlogForm
+    template_name = 'blogs/create_blog.html'
+
+    def get_success_url(self):
+        return resolve_url('blogs:blog_details', pk=self.object.pk)
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(CreateBlog, self).form_valid(form)

@@ -84,7 +84,7 @@ WSGI_APPLICATION = 'application.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'boboBase',
+        'NAME': 'DB1',
         'USER': 'bobo',
         'PASSWORD': 'bobo',
         'HOST': 'localhost',

@@ -1,0 +1,15 @@
+{% extends "core/base.html" %}
+
+
+{% block content %}
+{#    ААА Я не понимаю как урлы сюда включатся#}
+<form method= "post" action= "{%  url 'blogs:create_blog' %}">
+{% csrf_token %}
+{% for field in form %}
+          <div>{{ field.label }}</div>
+            <div>{{ field }}</div>
+            <div> {{ field.errors }}</div>{% endfor %}
+<input type = "submit" value= "create">
+</form>
+
+    {% endblock %}

@@ -1,20 +1,20 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-<h1>Регистрация</h1>
-<form method="post" action="{% url 'registration' %}">
+    <h1>Регистрация</h1>
+    <form method="post" action="{% url 'registration' %}">
 
-{% csrf_token %}
+        {% csrf_token %}
 
-{% for field in form %}
+        {% for field in form %}
+            <div>{{ field.label }}</div>
+            <div>{{ field }}</div>
+            <div> {{ field.errors }}</div>
+        {% endfor %}
 
-    <div>{{ field.label_tag }} </div>
-    <div>{{ field }} </div>
+        <input type="submit" value="Зарегистрироваться"/>
 
-{% endfor %}
-
-<input type="submit" value="Зарегистрироваться"/>
-</form>
+    </form>
 
 {% endblock %}
 

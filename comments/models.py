@@ -2,6 +2,10 @@ from django.conf import settings
 from django.db import models
 
 
+
+def author_default():
+    return {"author":"admin"}
+
 class Comment(models.Model):
 
     post = models.ForeignKey('posts.Post')
