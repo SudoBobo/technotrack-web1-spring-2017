@@ -16,12 +16,25 @@
 </div>
 
 <div>
-    {% block footer %} {{ user.username }}
-{#    <div>#}
-{#    <form method ="get" action="{%  url "blogs:blog_list" %}">#}
-{##}
-{#        <input type="submit" value="К списку блогов"/>    </form>#}
-{#    </div>#}
+    {% block footer %}
+
+        {% if user.is_authenticated %}
+            <div>Вы зашли как : {{ user.username }}</div>
+                <div><a href="{% url 'core:logout' %}"><h3>Разлогиниться</h3></a>
+
+        {% endif %}
+
+
+        {% if user.is_anonymous %}
+            <a href="{% url 'core:login' %}"><h3>Залогиниться</h3></a>
+            <a href="{% url 'registration' %}"><h3>Зарегистрироваться</h3></a>
+
+        {% endif %}
+            <div>
+            <form method ="get" action="{%  url "blogs:blog_list" %}">
+
+                <input type="submit" value="К списку блогов"/>    </form>
+            </div>
     {% endblock %}
 </div>
 
