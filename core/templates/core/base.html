@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
 
@@ -6,12 +8,10 @@
 </head>
 
 <body>
-
 <h1>{% block page_title %}{% endblock %}</h1>
 
 <div>
     {% block content %}
-
     {% endblock %}
 </div>
 
@@ -20,24 +20,22 @@
 
         {% if user.is_authenticated %}
             <div>Вы зашли как : {{ user.username }}</div>
-                <div><a href="{% url 'core:logout' %}"><h3>Разлогиниться</h3></a>
-
+            <div><a href="{% url 'core:logout' %}"><h3>Разлогиниться</h3></a>
         {% endif %}
 
 
         {% if user.is_anonymous %}
             <a href="{% url 'core:login' %}"><h3>Залогиниться</h3></a>
             <a href="{% url 'registration' %}"><h3>Зарегистрироваться</h3></a>
-
         {% endif %}
-            <div>
-            <form method ="get" action="{%  url "blogs:blog_list" %}">
 
-                <input type="submit" value="К списку блогов"/>    </form>
-            </div>
+        <div>
+            <form method="get" action="{% url "blogs:blog_list" %}">
+                <input type="submit" value="К списку блогов"/></form>
+        </div>
     {% endblock %}
+    </div>
 </div>
-
 </body>
 
 </html>

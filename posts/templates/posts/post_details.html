@@ -1,11 +1,11 @@
 {% extends 'core/base.html' %}
 
 {% block title %}
-    Пост "{{ object.title }}".
+    Пост "{{ post.title }}".
 {% endblock %}
 
 {% block page_title %}
-    Пост "{{ object.title }}".
+    Пост "{{ post.title }}".
 {% endblock %}
 
 {% block content %}
@@ -14,13 +14,15 @@
     <article> {{ post.content }}</article>
 
 
-    {% for like in post.likes.all %}
+    <div>Лайкнули:
+        {% for like in post.likes.all %}
             {{ like.author }}
-    {% endfor %}
-    <div>Лайкнули: {{ post.likes.author }}</div>
+        {% endfor %}
+    </div>
 
+    <div><a href="{% url 'posts:update_post' pk=post.id %}"> Редактировать </a></div>
 
-    {% for comment in object.comment_set.all %}
+    {% for comment in post.comment_set.all %}
         <div style="border: dotted">
             <div> Комментарй № {{ comment.id }} </div>
             <div> {{ comment.text }}</div>
@@ -29,5 +31,17 @@
             </div>
         </div>
     {% endfor %}
+
+
+    <form method="post" action="{% url 'posts:post_details' pk=post.id %}">
+        {% csrf_token %}
+        {% for field in form %}
+            <div>{{ field.label }}</div>
+            <div>{{ field }}</div>
+            <div> {{ field.errors }}</div>{% endfor %}
+        <input type="submit" value="create">
+    </form>
+
+
 
 {% endblock %}

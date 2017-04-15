@@ -2,14 +2,8 @@
 
 {% block title %} Home {% endblock %}
 
-{%  block page_title %} Home {% endblock %}
+{%  block page_title %} У нас тут много клёвых блогов {% endblock %}
 
 {% block content %}
-    <div> Число блогов : {{ n_blogs }}</div>
-    <div> Число постов : {{ n_posts }}</div>
-    <div> Число комментариев : {{ n_comments }}</div>
-    <div> </div>
-    <div><a href="{% url 'blogs:blog_list' %}"><h3>Список блогов</h3></a>
- </div>
-
+    <div> Число клёвых блогов : {{ n_blogs }}</div>
 {% endblock %}

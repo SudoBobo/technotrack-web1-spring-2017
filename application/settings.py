@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = 'akhg#faa%x411o9mb9s-vl(#+0q-nux2%k3!-t4aekfj9u4k3!'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -41,19 +39,20 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'blogs.apps.BlogsConfig',
     'comments.apps.CommentsConfig',
-    'posts.apps.PostsConfig'
+    'posts.apps.PostsConfig',
+    'bootstrap3',
 ]
 
 AUTH_USER_MODEL = 'core.User'
 
-
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware', # проходятся последовательно
-    'django.contrib.sessions.middleware.SessionMiddleware', # используют результаты работы друг друга
+    'django.middleware.security.SecurityMiddleware',  # проходятся последовательно
+    'django.contrib.sessions.middleware.SessionMiddleware',  # используют результаты работы друг друга
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware', # позволяет что-то заготовить для пользователя безоотносительно запросов
+    'django.contrib.messages.middleware.MessageMiddleware',
+    # позволяет что-то заготовить для пользователя безоотносительно запросов
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -77,7 +76,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'application.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
@@ -90,7 +88,6 @@ DATABASES = {
         'HOST': 'localhost',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -110,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
@@ -123,7 +119,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
