@@ -2,53 +2,81 @@
 <html lang="en">
 {% extends "core/base.html" %}
 
+{% load bootstrap3 %}
 
 {% load static %}
 
 {% block title %}Список блогов{% endblock %}
 
 {% block content %}
-
-    {% if user.is_authenticated %}
-
+{#    <ul class="list-group">#}
         <li class="list-group-item">
-            <a class="btn btn-success fm-create" data-fm-head="Создание блога" data-fm-callback="reload"
-               href="{% url 'blogs:create_blog' %}">Создать новый блог</a>
-        </li>
-
-    {% endif %}
-
-
-    <div class="panel-group">
-        {% for blog in object_list %}
-            <div class="panel panel-info">
-                <div class="panel-heading"> <div style="font-size: 30px">{{ blog.title }}</div>
-                    <div>
-
-                        <div class="btn-group">
-                            {% block panel-buttons %}
-                                <a class="btn btn-info" href="{% url 'blogs:blog_details' pk=blog.id %}">
-                                    Смотреть
-                                </a>
-                            {% endblock %}
-
-                            {% if user == blog.owner %}
-                                <a class="btn btn-warning fm-update" data-fm-head="Редактирование блога"
-                                   data-fm-callback="reload"
-                                   href="{% url 'blogs:update_blog' pk=blog.id %}">Редактировать</a>
-                            {% endif %}
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            <a data-toggle="collapse" href="#collapse-filter-form">Поиск</a>
                         </div>
+                    </div>
+                    <div id="collapse-filter-form"
+                         class="panel-collapse collapse {% if filter_form.search.value %}in{% endif %}">
+                        <form method="get" action="{% url 'blogs:blog_list' %}">
+                            <div class="panel-body">
+                                {% bootstrap_form filter_form %}
+                            </div>
+                            <div class="panel-footer">
+                                {% buttons submit='Фильтр' %}{% endbuttons %}
+                            </div>
+                        </form>
 
                     </div>
                 </div>
-
-
-                <div class="panel-body">
-                    {{ blog.description }}
-                </div>
             </div>
-        {% endfor %}
-    </div>
+        </li>
+
+
+        {% if user.is_authenticated %}
+
+            <li class="list-group-item">
+                <a class="btn btn-success fm-create" data-fm-head="Создание блога" data-fm-callback="reload"
+                   href="{% url 'blogs:create_blog' %}">Создать новый блог</a>
+            </li>
+
+        {% endif %}
+
+
+        <div class="panel-group">
+            {% for blog in object_list %}
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <div style="font-size: 30px">{{ blog.title }}</div>
+                        <div>
+
+                            <div class="btn-group">
+                                {% block panel-buttons %}
+                                    <a class="btn btn-info" href="{% url 'blogs:blog_details' pk=blog.id %}">
+                                        Смотреть
+                                    </a>
+                                {% endblock %}
+
+                                {% if user == blog.owner %}
+                                    <a class="btn btn-warning fm-update" data-fm-head="Редактирование блога"
+                                       data-fm-callback="reload"
+                                       href="{% url 'blogs:update_blog' pk=blog.id %}">Редактировать</a>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="panel-body">
+                        {{ blog.description }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+{#    </ul>#}
 
 {% endblock %}
 

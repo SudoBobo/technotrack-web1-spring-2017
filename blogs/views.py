@@ -8,7 +8,7 @@ from django.views.generic import ListView
 from blogs.models import Blog
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from blogs.forms import CreateBlogForm, UpdateBlogForm
+from blogs.forms import CreateBlogForm, UpdateBlogForm, FilterForm
 
 from fm.views import AjaxCreateView, AjaxUpdateView
 
@@ -19,13 +19,24 @@ from blogs.forms import UpdateBlogForm
 class BlogList(ListView):
     template_name = 'blogs/blog_list.html'
     model = Blog
+    filter_form = None
 
-    # def get_queryset(self):
-    #     sorting = self.request.Get('sort', 'title')
-    #     if sorting not in ('title', 'rate', 'desctiption'):
-    #         qs = super(BlogList, self).get_queryset()
-    #     qs = qs.order_by(sorting)
-    #     return qs
+    def dispatch(self, request, *args, **kwargs):
+        self.filter_form = FilterForm(request.GET)
+        return super(BlogList, self).dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(BlogList, self).get_context_data(**kwargs)
+        context['filter_form'] = self.filter_form
+        return context
+
+    def get_queryset(self):
+        qs = Blog.objects.all()
+        if self.filter_form.is_valid():
+            if self.filter_form.cleaned_data.get('sort'):
+                qs = qs.order_by(self.filter_form.cleaned_data['sort'])
+            qs = qs.filter(title__contains=self.filter_form.cleaned_data['search'])
+        return qs
 
 
 class BlogDetails(DetailView):

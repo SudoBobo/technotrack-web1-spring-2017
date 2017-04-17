@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'bootstrap3',
     'crispy_forms',
     'fm',
+    'bootstrapform',
+
 ]
 
 AUTH_USER_MODEL = 'core.User'
