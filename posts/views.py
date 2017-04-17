@@ -4,6 +4,7 @@ from django.shortcuts import render, resolve_url, get_object_or_404
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
+from fm.views import AjaxUpdateView, AjaxCreateView
 
 from posts.forms import CreatePostForm, UpdatePostForm, CreateCommentForm
 
@@ -16,8 +17,7 @@ class PostDetails(CreateView):
 
     postobject = None
 
-
-    #?
+    # ?
     def post(self, request, *args, **kwargs):
         if request.user.is_anonymous:
             raise PermissionDenied()
@@ -27,13 +27,13 @@ class PostDetails(CreateView):
         self.postobject = get_object_or_404(Post, id=pk)
         return super(PostDetails, self).dispatch(request, *args, **kwargs)
 
-    #Это контекст для html-ки
+    # Это контекст для html-ки
     def get_context_data(self, **kwargs):
         context = super(PostDetails, self).get_context_data(**kwargs)
         context['post'] = self.postobject
         return context
 
-    #Это то, что отправляется на сервер
+    # Это то, что отправляется на сервер
     def form_valid(self, form):
         form.instance.author = self.request.user
         form.instance.post = self.postobject
@@ -43,9 +43,8 @@ class PostDetails(CreateView):
         return resolve_url('posts:post_details', pk=self.postobject.id)
 
 
-class CreatePost(LoginRequiredMixin, CreateView):
+class CreatePost(LoginRequiredMixin, AjaxCreateView):
     form_class = CreatePostForm
-    template_name = 'posts/create_post.html'
 
     def get_form_kwargs(self):
         kwargs = super(CreatePost, self).get_form_kwargs()
@@ -60,9 +59,8 @@ class CreatePost(LoginRequiredMixin, CreateView):
         return super(CreatePost, self).form_valid(form)
 
 
-class UpdatePost(LoginRequiredMixin, UpdateView):
+class UpdatePost(LoginRequiredMixin, AjaxUpdateView):
     form_class = UpdatePostForm
-    template_name = 'posts/update_post.html'
 
     def get_queryset(self):
         return Post.objects.filter(author=self.request.user)

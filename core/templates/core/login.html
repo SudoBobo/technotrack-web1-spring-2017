@@ -19,15 +19,15 @@
 {#    как это ресолвится?#}
 <form method="post" action="{% url 'core:login' %}">
 
-{# Зачем это тут? Как токен попадает в login view? #}
+{# Зачем это тут? Как токен попадает в login view? Алсо, как локализовать штуки снизу? #}
 {% csrf_token %}
 <table>
 <tr>
-    <td>{{ form.username.label_tag }}</td>
+    <td> Логин </td>
     <td>{{ form.username }}</td>
 </tr>
 <tr>
-    <td>{{ form.password.label_tag }}</td>
+    <td> Пароль <td>
     <td>{{ form.password }}</td>
 </tr>
 </table>
@@ -38,5 +38,7 @@
 
 {# Assumes you setup the password_reset view in your URLconf #}
 {#<p><a href="{% url 'password_reset' %}">Lost password?</a></p>#}
+{% endblock %}
 
+{%  block footer %}
 {% endblock %}

@@ -2,47 +2,91 @@
 <html lang="en">
 {% extends "core/base.html" %}
 
+
 {% load static %}
 
-
-{% block extra %}
-
-{% endblock %}
-
-{#{%  load widget_tweaks %}#}
-{% block title %} Список блогов {% endblock %}
-
-{% block page_title %} Список блогов {% endblock %}
-
-
+{% block title %}Список блогов{% endblock %}
 
 {% block content %}
 
+    {% if user.is_authenticated %}
 
-    <div>
+        <li class="list-group-item">
+            <a class="btn btn-success fm-create" data-fm-head="Создание блога" data-fm-callback="reload"
+               href="{% url 'blogs:create_blog' %}">Создать новый блог</a>
+        </li>
 
+    {% endif %}
+
+
+    <div class="panel-group">
+        {% for blog in object_list %}
+            <div class="panel panel-info">
+                <div class="panel-heading"> <div style="font-size: 30px">{{ blog.title }}</div>
+                    <div>
+
+                        <div class="btn-group">
+                            {% block panel-buttons %}
+                                <a class="btn btn-info" href="{% url 'blogs:blog_details' pk=blog.id %}">
+                                    Смотреть
+                                </a>
+                            {% endblock %}
+
+                            {% if user == blog.owner %}
+                                <a class="btn btn-warning fm-update" data-fm-head="Редактирование блога"
+                                   data-fm-callback="reload"
+                                   href="{% url 'blogs:update_blog' pk=blog.id %}">Редактировать</a>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="panel-body">
+                    {{ blog.description }}
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    {% for blog in object_list %}
 
-
-
-        <div>
-        <div>
-            <div>Блог : <a href="{% url 'blogs:blog_details' pk=blog.id %}">{{ blog.title }}</a></div>
-            <div>Описание : {{ blog.description }}</div>
-        </div>
-    {% endfor %}    </div>
-
-
-
-    <div>
-        <a href="{% url 'blogs:create_blog' %}"> Создать блог </a>
-    </div>
-    <a href="{% url 'home' %}">Home</a>
 {% endblock %}
 
 
-{% block footer %} {% endblock %}
+{#{%  load widget_tweaks %}#}
+{#{% block title %} Список блогов {% endblock %}#}
+{##}
+{#{% block page_title %} Список блогов {% endblock %}#}
+{##}
+{##}
+{##}
+{#{% block content %}#}
+{##}
+{##}
+{#    <div>#}
+{##}
+{#    </div>#}
+{#    {% for blog in object_list %}#}
+{##}
+{##}
+{##}
+{#        <div>#}
+{#        <div>#}
+{#            <div>Блог : <a href="{% url 'blogs:blog_details' pk=blog.id %}">{{ blog.title }}</a></div>#}
+{#            <div>Описание : {{ blog.description }}</div>#}
+{#        </div>#}
+{#    {% endfor %}    </div>#}
+{##}
+{##}
+{##}
+{#    <div>#}
+{#        <a href="{% url 'blogs:create_blog' %}"> Создать блог </a>#}
+{#    </div>#}
+{#    <a href="{% url 'home' %}">Home</a>#}
+{#{% endblock %}#}
+{##}
+{##}
+{#{% block footer %} {% endblock %}#}
 
 {#{% block content %}#}
 {#    <a href="{% url 'home' %}"><h3>Домашняя страница</h3></a>#}

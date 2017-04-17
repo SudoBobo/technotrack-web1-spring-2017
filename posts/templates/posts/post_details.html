@@ -1,47 +1,57 @@
 {% extends 'core/base.html' %}
 
-{% block title %}
-    Пост "{{ post.title }}".
-{% endblock %}
+{% load bootstrap3 %}
+{% bootstrap_javascript %}
 
-{% block page_title %}
-    Пост "{{ post.title }}".
+{% block title %}
+    Блог {{ post.blog.title }}
+    <br>
+    Пост "{{ post.title }}"
 {% endblock %}
 
 {% block content %}
-    <a href="{% url 'blogs:blog_details' pk=post.blog.id %}">Блог: {{ post.blog.title }}</a>
-    <div>Автор : {{ post.author }}</div>
-    <article> {{ post.content }}</article>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <article>{{ post.content }}</article>
+                </li>
+                <li class="list-group-item">
+                    {{ post.likes.count }}
+                    <a href="#"> {% bootstrap_icon 'heart' %}</a>
+                </li>
+            </ul>
+        </li>
 
+        <li class="list-group-item">
+            {% if user.is_authenticated %}
+                <form method="post" action="{% url 'posts:post_details' pk=post.id %}">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% buttons submit="Отправить" %}{% endbuttons %}
+                </form>
+            {% endif %}
+        </li>
 
-    <div>Лайкнули:
-        {% for like in post.likes.all %}
-            {{ like.author }}
-        {% endfor %}
-    </div>
-
-    <div><a href="{% url 'posts:update_post' pk=post.id %}"> Редактировать </a></div>
-
-    {% for comment in post.comment_set.all %}
-        <div style="border: dotted">
-            <div> Комментарй № {{ comment.id }} </div>
-            <div> {{ comment.text }}</div>
-            <div>
-                <small>Автор: {{ comment.author }}</small>
-            </div>
-        </div>
-    {% endfor %}
-
-
-    <form method="post" action="{% url 'posts:post_details' pk=post.id %}">
-        {% csrf_token %}
-        {% for field in form %}
-            <div>{{ field.label }}</div>
-            <div>{{ field }}</div>
-            <div> {{ field.errors }}</div>{% endfor %}
-        <input type="submit" value="create">
-    </form>
-
-
-
+        <li>
+            <div class="list-group">
+                {% for comment in post.comment_set.all %}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-4 col-md-2">
+                                {{ comment.author }}
+                            </div>
+                            <div class="col-xs-8 col-md-10">
+                                {{ comment.created_at }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8 col-md-10">
+                                {{ comment.text }}
+                            </div>
+                        </div>
+                    </li>
+                {% endfor %}
+        </li>
+    </ul>
 {% endblock %}

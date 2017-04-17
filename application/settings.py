@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'comments.apps.CommentsConfig',
     'posts.apps.PostsConfig',
     'bootstrap3',
+    'crispy_forms',
+    'fm',
 ]
 
 AUTH_USER_MODEL = 'core.User'
@@ -129,3 +131,5 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'core:login'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

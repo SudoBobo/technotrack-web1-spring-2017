@@ -10,12 +10,15 @@ from blogs.models import Blog
 from django.contrib.auth.mixins import LoginRequiredMixin
 from blogs.forms import CreateBlogForm, UpdateBlogForm
 
+from fm.views import AjaxCreateView, AjaxUpdateView
+
+from blogs.forms import CreateBlogForm
+from blogs.forms import UpdateBlogForm
+
 
 class BlogList(ListView):
     template_name = 'blogs/blog_list.html'
     model = Blog
-
-
 
     # def get_queryset(self):
     #     sorting = self.request.Get('sort', 'title')
@@ -30,24 +33,22 @@ class BlogDetails(DetailView):
     model = Blog
 
 
-class CreateBlog(LoginRequiredMixin, CreateView):
+class CreateBlog(LoginRequiredMixin, AjaxCreateView):
     form_class = CreateBlogForm
-    template_name = 'blogs/create_blog.html'
-
-    def get_success_url(self):
-        return resolve_url('blogs:blog_details', pk=self.object.pk)
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super(CreateBlog, self).form_valid(form)
 
-
-class UpdateBlog(LoginRequiredMixin, UpdateView):
-    template_name = 'blogs/update_blog_new.html'
-    form_class = UpdateBlogForm
-
     def get_success_url(self):
         return resolve_url('blogs:blog_details', pk=self.object.pk)
 
+
+class UpdateBlog(LoginRequiredMixin, AjaxUpdateView):
+    form_class = UpdateBlogForm
+
     def get_queryset(self):
         return Blog.objects.filter(owner=self.request.user)
+
+    def get_success_url(self):
+        return resolve_url('blogs:blog_details', pk=self.object.pk)
