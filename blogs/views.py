@@ -5,7 +5,7 @@ from django.views.generic import UpdateView
 from django.views.generic import DetailView
 from django.views.generic import ListView
 
-from blogs.models import Blog
+from blogs.models import Blog, Category
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from blogs.forms import CreateBlogForm, UpdateBlogForm, FilterForm
@@ -54,12 +54,29 @@ class CreateBlog(LoginRequiredMixin, AjaxCreateView):
     def get_success_url(self):
         return resolve_url('blogs:blog_details', pk=self.object.pk)
 
+    def get_queryset(self):
+        qs = Category.objects.all()
+        if self.q:
+            qs = qs.filter(name__istartswith=self.q)
 
-class UpdateBlog(LoginRequiredMixin, AjaxUpdateView):
+        return qs
+
+
+class UpdateBlog(LoginRequiredMixin, UpdateView):
     form_class = UpdateBlogForm
+    template_name = 'blogs/update_blog_new.html'
 
     def get_queryset(self):
         return Blog.objects.filter(owner=self.request.user)
 
     def get_success_url(self):
         return resolve_url('blogs:blog_details', pk=self.object.pk)
+
+# class UpdateBlog(LoginRequiredMixin, AjaxUpdateView):
+#     form_class = UpdateBlogForm
+#
+#     def get_queryset(self):
+#         return Blog.objects.filter(owner=self.request.user)
+#
+#     def get_success_url(self):
+#         return resolve_url('blogs:blog_details', pk=self.object.pk)

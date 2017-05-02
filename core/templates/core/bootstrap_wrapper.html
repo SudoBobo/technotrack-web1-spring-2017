@@ -9,12 +9,17 @@
 
 {% block bootstrap3_title %}{% block title %}{% endblock %}{% endblock %}
 {% block bootstrap3_extra_head %}
+    <meta name="csrf" content="{{ csrf_token }}">
     <link rel="stylesheet" href="{% static 'core/bootstrap_wrapper.css' %}">
+{#    что это значит?#}
+    <link rel="stylesheet" href="{% static 'chosen/chosen-1.7.0/sass/chosen.scss' %}">
+
 {% endblock %}
 
 
 {% block bootstrap3_extra_script %}
-{#    <script src="{% static 'core/js/core.js' %}"></script>#}
+    <script src="{% static 'chosen/chosen-1.7.0/coffee/chosen.jquery.coffee' %}"></script>
+    <script src="{% static 'core/js/core.js' %}"></script>
     {% include 'fm/modal.html' %}
     <script type="text/javascript">
         $(function () {

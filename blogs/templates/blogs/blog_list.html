@@ -9,74 +9,79 @@
 {% block title %}Список блогов{% endblock %}
 
 {% block content %}
-{#    <ul class="list-group">#}
-        <li class="list-group-item">
-            <div class="panel-group">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <div class="panel-title">
-                            <a data-toggle="collapse" href="#collapse-filter-form">Поиск</a>
+    {#    <ul class="list-group">#}
+    <li class="list-group-item">
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        <a data-toggle="collapse" href="#collapse-filter-form">Поиск</a>
+                    </div>
+                </div>
+                <div id="collapse-filter-form"
+                     class="panel-collapse collapse {% if filter_form.search.value %}in{% endif %}">
+                    <form method="get" action="{% url 'blogs:blog_list' %}">
+                        <div class="panel-body">
+                            {% bootstrap_form filter_form %}
                         </div>
-                    </div>
-                    <div id="collapse-filter-form"
-                         class="panel-collapse collapse {% if filter_form.search.value %}in{% endif %}">
-                        <form method="get" action="{% url 'blogs:blog_list' %}">
-                            <div class="panel-body">
-                                {% bootstrap_form filter_form %}
-                            </div>
-                            <div class="panel-footer">
-                                {% buttons submit='Фильтр' %}{% endbuttons %}
-                            </div>
-                        </form>
+                        <div class="panel-footer">
+                            {% buttons submit='Фильтр' %}{% endbuttons %}
+                        </div>
+                    </form>
 
-                    </div>
                 </div>
             </div>
+        </div>
+    </li>
+
+
+    {% if user.is_authenticated %}
+
+        <li class="list-group-item">
+            <a class="btn btn-success fm-create" data-fm-head="Создание блога" data-fm-callback="reload"
+               href="{% url 'blogs:create_blog' %}">Создать новый блог</a>
         </li>
 
-
-        {% if user.is_authenticated %}
-
-            <li class="list-group-item">
-                <a class="btn btn-success fm-create" data-fm-head="Создание блога" data-fm-callback="reload"
-                   href="{% url 'blogs:create_blog' %}">Создать новый блог</a>
-            </li>
-
-        {% endif %}
+    {% endif %}
 
 
-        <div class="panel-group">
-            {% for blog in object_list %}
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <div style="font-size: 30px">{{ blog.title }}</div>
-                        <div>
+    <div class="panel-group">
+        {% for blog in object_list %}
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div style="font-size: 30px">{{ blog.title }}</div>
+                    <div>
 
-                            <div class="btn-group">
-                                {% block panel-buttons %}
-                                    <a class="btn btn-info" href="{% url 'blogs:blog_details' pk=blog.id %}">
-                                        Смотреть
-                                    </a>
-                                {% endblock %}
+                        <div class="btn-group">
+                            {% block panel-buttons %}
+                                <a class="btn btn-info" href="{% url 'blogs:blog_details' pk=blog.id %}">
+                                    Смотреть
+                                </a>
+                            {% endblock %}
 
-                                {% if user == blog.owner %}
-                                    <a class="btn btn-warning fm-update" data-fm-head="Редактирование блога"
-                                       data-fm-callback="reload"
-                                       href="{% url 'blogs:update_blog' pk=blog.id %}">Редактировать</a>
-                                {% endif %}
-                            </div>
-
+                            {% if user == blog.owner %}
+                                <a class="btn btn-warning updateBlogButton">Редактировать</a>
+                                {% include 'blogs/update_blog_new.html' %}
+                                {#                                    <a class="btn btn-warning fm-update" data-fm-head="Редактирование блога"#}
+                                {#                                       data-fm-callback="reload"#}
+                                {#                                       href="{% url 'blogs:update_blog' pk=blog.id %}">Редактировать</a>#}
+                                {#                                    вот тут вызов джса, который рисует форму#}
+                                {#                                    потом ловим либо нажатие на подложку и джсом всё закрываем#}
+                                {#                                       либо нажатие на кнопку и отправляем& закрываем#}
+                            {% endif %}
                         </div>
-                    </div>
 
-
-                    <div class="panel-body">
-                        {{ blog.description }}
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-{#    </ul>#}
+
+
+                <div class="panel-body">
+                    {{ blog.description }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {#    </ul>#}
 
 {% endblock %}
 

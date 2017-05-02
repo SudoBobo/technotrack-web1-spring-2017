@@ -1,15 +1,60 @@
-{% extends "core/base.html" %}
+<div class="modal fade" tabindex="-1" role="dialog" id="updateBlogModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Редактирование блога</h4>
+            </div>
+            <div class="modal-body">
+                {#        <p>One fine body&hellip;</p>#}
 
 
-{% block content %}
+                <form method="post" action="{% url 'posts:update_post'  pk=post.id %}">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div>{{ field.label }}</div>
+                        <div>{{ field }}</div>
+                        <div> {{ field.errors }}</div>{% endfor %}
+                    <input type="submit" value="update">
+                </form>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+{#{% block content %}#}
 {# Как это вот собирается в то, что принимается в url.py? #}
-<form method= "post" action= "{%  url 'blogs:update_blog' pk=object.id %}">
-{% csrf_token %}
-{% for field in form %}
-          <div>{{ field.label }}</div>
-            <div>{{ field }}</div>
-            <div> {{ field.errors }}</div>{% endfor %}
-<input type = "submit" value= "update">
-</form>
+{#<form method= "post" action= "{%  url 'blogs:update_blog' pk=object.id %}">#}
+{#{% csrf_token %}#}
+{#{% for field in form %}#}
+{#          <div>{{ field.label }}</div>#}
+{#            <div>{{ field }}</div>#}
+{#            <div> {{ field.errors }}</div>{% endfor %}#}
+{#<input type = "submit" value= "update">#}
+{#</form>#}
+{##}
+{#    {% endblock %}#}
 
-    {% endblock %}
+{#{% extends "core/base.html" %}#}
+{##}
+{##}
+{#{% block content %}#}
+{#    ААА Я не понимаю как урлы сюда включатся#}
+{#<form method= "post" action= "{%  url 'blogs:create_blog' %}">#}
+{#{% csrf_token %}#}
+{#{% for field in form %}#}
+{#          <div>{{ field.label }}</div>#}
+{#            <div>{{ field }}</div>#}
+{#            <div> {{ field.errors }}</div>{% endfor %}#}
+{#<input type = "submit" value= "create">#}
+{#</form>#}
+{##}
+{#    {% endblock %}#}

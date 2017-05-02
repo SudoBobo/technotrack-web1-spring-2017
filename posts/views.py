@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.http import HttpResponse, request
 from django.shortcuts import render, resolve_url, get_object_or_404
+from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import DetailView
 from django.views.generic import UpdateView
@@ -8,7 +10,7 @@ from fm.views import AjaxUpdateView, AjaxCreateView
 
 from posts.forms import CreatePostForm, UpdatePostForm, CreateCommentForm
 
-from posts.models import Post
+from posts.models import Post, Like
 
 
 class PostDetails(CreateView):
@@ -67,3 +69,25 @@ class UpdatePost(LoginRequiredMixin, AjaxUpdateView):
 
     def get_success_url(self):
         return resolve_url('posts:post_details', pk=self.object.pk)
+
+
+class PostLikeAjaxView(View):
+    def dispatch(self, request, pk=None, *args, **kwargs):
+        # Забираем из базы пост, который собираются лайкнуть
+        # что это?
+        self.post_object = get_object_or_404(Post, id=pk)
+        return super(PostLikeAjaxView, self).dispatch(request, *args, **kwargs)
+
+    def post(self):
+        if not self.post_object.likes.filter(user=self.request.user).exists():
+            Like.objects.create(author=self.request.user, post=self.post_object)
+        # Сначала мы проверили, что лайка от этого юзера у поста еще нет
+        # Видимо, банальное создание объекта с сэйвом в ко
+        # Теперь мы здесь должны создать лайк, и вернуть новое количество лайков у поста
+        return HttpResponse(Like.objects.filter(post=self.post_object).count())
+
+
+class PostCommentsView(DetailView):
+    queryset = Post.objects.all()
+    template_name = 'posts/commentsdiv.html'
+
